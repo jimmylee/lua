@@ -94,19 +94,19 @@ function love.update(dt)
 
 
     if love.keyboard.isDown("left") then
-        monsterX = monsterX - 100 * dt
+        monsterX = monsterX - 200 * dt * 4
     end
 
     if love.keyboard.isDown("right") then
-        monsterX = monsterX + 100 * dt
+        monsterX = monsterX + 200 * dt * 4
     end
 
     if love.keyboard.isDown("up") then
-        monsterY = monsterY - 100 * dt
+        monsterY = monsterY - 200 * dt * 4
     end
 
     if love.keyboard.isDown("down") then
-        monsterY = monsterY + 100 * dt
+        monsterY = monsterY + 200 * dt * 4
     end
 end
 
@@ -154,7 +154,6 @@ function love.draw()
     love.graphics.draw(monsterTwo, monsterTwoX, monsterTwoY, monsterTwoAngle)
 
     love.graphics.draw(monsterThree, x, y)
-
 
     local monsterFourROT = monsterFourAngle * 180 / math.pi
     local monsterFourSX = math.cos(monsterFourAngle) * 3

@@ -1,3 +1,5 @@
+local testEntity = require 'common/test'
+
 function createMovementSchemeOne(entity, dt)
     local diffX = x - entity.x
     local diffY = y - entity.y
@@ -131,6 +133,9 @@ function love.draw()
     love.graphics.draw(chaserThree.asset, chaserThree.x, chaserThree.y)
 
     love.graphics.draw(character, x, y)
+
+    local test = testEntity()
+    test.draw()
 
     love.graphics.setColor(1, 0, 0)
 
