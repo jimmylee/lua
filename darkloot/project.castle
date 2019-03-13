@@ -1,4 +1,5 @@
 ---
-main: main.lua
 title: Dark Loot
+main: main.lua
+description: Dark souls but just the loot
 
