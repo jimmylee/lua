@@ -1,7 +1,7 @@
 Object = require 'vendor/classic'
 Entity = Object:extend()
 
-local function insertResource(t, resource, amount) 
+local function insertResource(t, resource, amount)
   found = false
 
   for i, v in ipairs (t) do
@@ -12,7 +12,7 @@ local function insertResource(t, resource, amount)
   end
 
   if found == false then
-    table.insert(t, { 
+    table.insert(t, {
       resource = resource,
       amount = amount
     })
@@ -21,10 +21,6 @@ end
 
 function Entity:new(p)
   self.items = p.items
-  self.animation = { 
-    current = 0,
-    duration = 0.7
-  }
 end
 
 function Entity:add(resource, amount)
@@ -44,23 +40,23 @@ function Entity:remove(resource, amount)
   return 0
 end
 
-function Entity:update(dt, resource)
-  self.animation.current = self.animation.current + dt
-
-  if self.animation.current >= self.animation.duration then
-    self.animation.current = self.animation.current - self.animation.duration
-
-    -- insertResource(self.items, resource, 1)
-  end
+function Entity:update(dt)
+  -- todo
 end
 
 function Entity:draw()
-  for i, item in ipairs (self.items) do
-    love.graphics.print(
-      "" .. item.resource .. 
-      " " .. item.amount .. "x",
-       372,
-        -8 + (i * 24)
+  height = love.graphics.getHeight()
+  width = love.graphics.getWidth()
+
+  for i, item in reversedipairs(self.items) do
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.printf(
+      "x" .. item.amount ..
+      " " .. item.resource .. "",
+       -320 - 16,
+        height - 64 - (i * 24),
+        width,
+        "right"
     )
   end
 end
