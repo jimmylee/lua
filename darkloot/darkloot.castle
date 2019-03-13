@@ -2,4 +2,5 @@
 title: Dark Loot
 main: main.lua
 description: Dark souls but just the loot
-
+username: jim
+primaryColor: FF0000
