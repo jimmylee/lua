@@ -1,7 +1,7 @@
 Object = require 'vendor/classic'
 Entity = Object:extend()
 
-local BULLET_SPEED = 32
+local BULLET_SPEED = 64
 
 -- shares with world.lua
 local lineUnit = 48
@@ -77,7 +77,8 @@ function Entity:showEncounter(character, offset)
     character = character,
     x = sx,
     y = sy,
-    angle = angle
+    angle = angle,
+    hex = 0
   }
 
   table.insert(self.mounted, projectileProperties)
@@ -97,6 +98,8 @@ function Entity:update(dt)
       local dy = BULLET_SPEED * math.sin(v.angle)
       v.x = v.x + (dx * dt)
       v.y = v.y + (dy * dt)
+
+      v.hex = v.hex + (1 / 86)
       
       if v.x > love.graphics.getWidth() or
          v.y > love.graphics.getHeight() or
@@ -109,7 +112,8 @@ end
 
 function Entity:draw()
   for i,v in pairs(self.mounted) do
-    love.graphics.setColor(1, 1, 1)
+
+    love.graphics.setColor(v.hex, v.hex, v.hex)
 
     local spriteNum = math.floor(
       self.animation[v.character].current 

@@ -8,11 +8,11 @@ local World = require 'objects/world';
 local Encounters = require 'objects/encounters';
 
 local elapsed = 0
-local duration = 0.15
+local duration = 0.11
 
 local chances = {
   gatherer = 850,
-  blacksmith = 950,
+  blacksmith = 960,
   merchant = 995
 }
 
