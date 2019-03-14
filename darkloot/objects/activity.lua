@@ -27,9 +27,13 @@ function Entity:new(p)
   self.count = 0;
   self.start = 1;
   self.size = 0;
+  self.animation = {
+    duration = 0.75,
+    current = 0
+  }
 end
 
-function Entity:update(dt, text)
+function Entity:add(text)
   self.count = self.count + 1
   self.size = self.size + 1
   table.insert(self.items, {
@@ -43,6 +47,14 @@ function Entity:update(dt, text)
     removeBeginningIndex(self.items, self.start)
     self.size = self.size - 1
     self.start = self.start + 1
+  end
+end
+
+function Entity:update(dt, text)
+  self.animation.current = self.animation.current + dt
+
+  if self.animation.current >= self.animation.duration then
+    self.animation.current = self.animation.current - self.animation.duration
   end
 end
 

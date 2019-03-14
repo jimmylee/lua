@@ -4,9 +4,16 @@ local Activity = require 'objects/activity'
 local Resources = require 'objects/resources'
 local Inventory = require 'objects/inventory';
 local Player = require 'objects/player';
+local World = require 'objects/world';
 
 local elapsed = 0
-local duration = 0.075
+local duration = 0.15
+
+local chances = {
+  gatherer = 850,
+  blacksmith = 950,
+  merchant = 995
+}
 
 local function randomSelectResource()
   eventValue = math.random(1, 26)
@@ -62,9 +69,18 @@ function love.load()
   inventory = Inventory({
     items = {}
   })
+
+  world = World({
+    items = {}
+  })
 end
 
 function love.update(dt)
+  activity:update(dt)
+  resources:update(dt)
+  inventory:update(dt)
+  viewer:update(dt)
+  world:update(dt)
 
   elapsed = elapsed + dt
   if elapsed < duration then
@@ -76,19 +92,18 @@ function love.update(dt)
   end
 
   eventValue = math.random(1, 1000)
-  text = "Adventurer: I found nothing."
   picked = false
 
   if picked ~= true then
-    if eventValue >= 995 then
-      text = "Merchant: I came to bring your stock to the king."
+    if eventValue >= chances.merchant then
+      activity:add("Merchant: I came to bring your stock to the king.")
       sellEvent = viewer:sell(inventory)
 
       if sellEvent == false then
-        text = "Merchant: I came to bring your stock to the king, but you have nothing for sale."
+        activity:add("Merchant: I came to bring your stock to the king, but you have nothing for sale.")
       end
       if sellEvent == true then
-        text = "Merchant: I came to bring your stock to the king, thank you for selling me your goods."
+        activity:add("Merchant: I came to bring your stock to the king, thank you for selling me your goods.")
       end
 
       picked = true
@@ -96,14 +111,14 @@ function love.update(dt)
   end
 
   if picked ~= true then
-    if eventValue >= 920 then
-      text = "Blacksmith: I tried to create something."
+    if eventValue >= chances.blacksmith then
+      activity:add("Blacksmith: I tried to create something.")
       createEvent = inventory:create(resources)
       if createEvent == false then
-        text = "Blacksmith: I failed to create an item."
+        activity:add("Blacksmith: I failed to create an item.")
       end
       if createEvent ~= false then
-        text = "Blacksmith: I created a " .. createEvent .. "."
+        activity:add("Blacksmith: I created a " .. createEvent .. ".")
       end
 
       picked = true
@@ -111,18 +126,17 @@ function love.update(dt)
   end
 
   if picked ~= true then
-    if (eventValue >= 700) then
-      found = randomSelectResource()
-      text = "Adventurer: I found a valuable resource, I found " .. found .. "."
-      resources:add(found, 1)
+    if (eventValue >= chances.gatherer) then
+      foundResource = randomSelectResource()
+      resources:add(foundResource, 1)
+      activity:add("Gatherer: I found a valuable resource, I found " .. foundResource .. ".")
       picked = true
     end
   end
 
-  activity:update(dt, text)
-  resources:update(dt)
-  inventory:update(dt)
-  viewer:update(dt)
+  if picked == false then
+    activity:add("Time has passed..")
+  end
 end
 
 function love.draw()
@@ -130,4 +144,5 @@ function love.draw()
   resources:draw()
   inventory:draw()
   viewer:draw()
+  world:draw()
 end
