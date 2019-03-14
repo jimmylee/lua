@@ -3,12 +3,12 @@ Entity = Object:extend()
 
 local lineUnit = 48
 local lineAnimationUnit = 1 / lineUnit
-local extension = lineUnit * 6
+local extension = lineUnit * 8
 local lineLength = lineUnit + extension
 local largestY = 0
 local rightOffset = 336
 local rightIncrement = 240
-local leftOffset = 96
+local topOffset = 16
 
 local function drawHorizontalLine(y)
   width = love.graphics.getWidth()
@@ -22,7 +22,7 @@ local function drawHorizontalLine(y)
   end
 
   love.graphics.setColor(hex, hex, hex)
-  love.graphics.line(width - (rightOffset + rightIncrement), leftOffset  + y, width - rightOffset, leftOffset + y)
+  love.graphics.line(width - (rightOffset + rightIncrement), topOffset  + y, width - rightOffset, topOffset + y)
 end
 
 local function drawVerticalLine(x, y)
@@ -37,7 +37,7 @@ local function drawVerticalLine(x, y)
   end
 
   love.graphics.setColor(hex, hex, hex)
-  love.graphics.line(width - (rightOffset + rightIncrement) + x, leftOffset , width - (rightOffset + rightIncrement) + x, leftOffset  + y)
+  love.graphics.line(width - (rightOffset + rightIncrement) + x, topOffset , width - (rightOffset + rightIncrement) + x, topOffset  + y)
 end
 
 function Entity:new(p)
