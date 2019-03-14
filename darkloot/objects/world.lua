@@ -45,7 +45,7 @@ function Entity:new(p)
   self.items = p.items
   self.verticalLines= {}
   self.animation = {
-    duration = 0.75,
+    duration = 0.5,
     current = 0
   }
 

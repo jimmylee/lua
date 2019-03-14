@@ -110,6 +110,8 @@ function love.update(dt)
         activity:add("Merchant: I came to bring your stock to the king, thank you for selling me your goods.")
       end
 
+      encounters:showEncounter('merchant', 135)
+
       picked = true
     end
   end
@@ -125,6 +127,8 @@ function love.update(dt)
         activity:add("Blacksmith: I created a " .. createEvent .. ".")
       end
 
+      encounters:showEncounter('blacksmith', 86)
+
       picked = true
     end
   end
@@ -134,7 +138,7 @@ function love.update(dt)
       foundResource = randomSelectResource()
       resources:add(foundResource, 1)
       activity:add("Gatherer: I found a valuable resource, I found " .. foundResource .. ".")
-      encounters:showEncounter()
+      encounters:showEncounter('gatherer', 38)
       picked = true
     end
   end
@@ -151,4 +155,5 @@ function love.draw()
   inventory:draw()
   viewer:draw()
   world:draw()
+  encounters:draw()
 end

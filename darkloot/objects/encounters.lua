@@ -1,7 +1,7 @@
 Object = require 'vendor/classic'
 Entity = Object:extend()
 
-local BULLET_SPEED = 100
+local BULLET_SPEED = 32
 
 -- shares with world.lua
 local lineUnit = 48
@@ -38,27 +38,43 @@ end
 
 function Entity:new()
   self.mounted = {}
-  self.animation = newAnimation(
-    love.graphics.newImage("assets/gatherer.png"),
-    28, 
-    32, 
-    1
-  )
+
+  self.animation = {
+    gatherer = newAnimation(
+      love.graphics.newImage("assets/gatherer.png"),
+      28, 
+      32, 
+      1
+    ),
+    blacksmith = newAnimation(
+      love.graphics.newImage("assets/blacksmith.png"),
+      30, 
+      32, 
+      1
+    ),
+    merchant = newAnimation(
+      love.graphics.newImage("assets/merchant.png"),
+      33, 
+      32, 
+      1
+    )
+  }
 end
 
-function Entity:showEncounter(offset)
+function Entity:showEncounter(character, offset)
   width = love.graphics.getWidth()
   height = love.graphics.getHeight()
 
-  local sx = width - rightOffset
+  local sx = width - rightOffset - offset
   local sy = lineLength
 
-  local tx = width - rightOffset
+  local tx = width - rightOffset - offset
   local ty = -48
 
   local angle = math.atan2(( ty - sy ), (tx - sx))
 
   local projectileProperties = {
+    character = character,
     x = sx,
     y = sy,
     angle = angle
@@ -68,10 +84,12 @@ function Entity:showEncounter(offset)
 end
 
 function Entity:update(dt)
-  self.animation.current = self.animation.current + dt
+  for i,v in pairs(self.animation) do
+    v.current = v.current + dt
 
-  if self.animation.current >= self.animation.duration then
-    self.animation.current = self.animation.current - self.animation.duration
+    if v.current >= v.duration then
+      v.current = v.current - v.duration
+    end
   end
 
   for i,v in pairs(self.mounted) do
@@ -79,14 +97,11 @@ function Entity:update(dt)
       local dy = BULLET_SPEED * math.sin(v.angle)
       v.x = v.x + (dx * dt)
       v.y = v.y + (dy * dt)
-
-      print(v.x)
-      print(v.y)
       
       if v.x > love.graphics.getWidth() or
          v.y > love.graphics.getHeight() or
-         v.x < 0 or
-         v.y < 0 then
+         v.x < -48 or
+         v.y < -48 then
         table.remove(self.mounted, i)
       end
   end
@@ -94,9 +109,22 @@ end
 
 function Entity:draw()
   for i,v in pairs(self.mounted) do
-    local spriteNum = math.floor(self.animation.current / self.animation.duration * #self.animation.quads) + 1
+    love.graphics.setColor(1, 1, 1)
 
-    love.graphics.draw(self.animation.spriteSheet, self.animation.quads[spriteNum], v.x, v.y, 0, 1)
+    local spriteNum = math.floor(
+      self.animation[v.character].current 
+      / self.animation[v.character].duration
+      * #self.animation[v.character].quads
+    ) + 1
+
+    love.graphics.draw(
+      self.animation[v.character].spriteSheet,
+      self.animation[v.character].quads[spriteNum],
+      v.x,
+      v.y,
+      0,
+      1
+    )
   end
 end
 
