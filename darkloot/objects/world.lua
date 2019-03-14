@@ -1,6 +1,7 @@
 Object = require 'vendor/classic'
 Entity = Object:extend()
 
+-- shares with encounters.lua
 local lineUnit = 48
 local lineAnimationUnit = 1 / lineUnit
 local extension = lineUnit * 8

@@ -5,6 +5,7 @@ local Resources = require 'objects/resources'
 local Inventory = require 'objects/inventory';
 local Player = require 'objects/player';
 local World = require 'objects/world';
+local Encounters = require 'objects/encounters';
 
 local elapsed = 0
 local duration = 0.15
@@ -73,6 +74,8 @@ function love.load()
   world = World({
     items = {}
   })
+
+  encounters = Encounters()
 end
 
 function love.update(dt)
@@ -81,6 +84,7 @@ function love.update(dt)
   inventory:update(dt)
   viewer:update(dt)
   world:update(dt)
+  encounters:update(dt)
 
   elapsed = elapsed + dt
   if elapsed < duration then
@@ -130,6 +134,7 @@ function love.update(dt)
       foundResource = randomSelectResource()
       resources:add(foundResource, 1)
       activity:add("Gatherer: I found a valuable resource, I found " .. foundResource .. ".")
+      encounters:showEncounter()
       picked = true
     end
   end
@@ -140,6 +145,7 @@ function love.update(dt)
 end
 
 function love.draw()
+  encounters:draw()
   activity:draw()
   resources:draw()
   inventory:draw()
