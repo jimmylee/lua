@@ -4,4 +4,4 @@ main: main.lua
 description: A loot grinder for you and your friends.
 username: jim
 primaryColor: FF0000
-coverImageUrl: https://user-images.githubusercontent.com/310223/54328915-eccccb00-45cc-11e9-8110-3063b730d82e.png
+coverImageUrl: https://raw.githubusercontent.com/jimmylee/lua-examples/master/darkloot/logo.png
