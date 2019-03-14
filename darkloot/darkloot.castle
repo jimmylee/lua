@@ -1,6 +1,7 @@
 ---
 name: Dark Loot
 main: main.lua
-description: Dark souls but just the loot
+description: A loot grinder for you and your friends.
 username: jim
 primaryColor: FF0000
+coverImageUrl: https://user-images.githubusercontent.com/310223/54328915-eccccb00-45cc-11e9-8110-3063b730d82e.png
