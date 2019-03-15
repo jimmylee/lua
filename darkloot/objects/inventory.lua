@@ -13,7 +13,42 @@ local materialChoices = {
   [4]="wood"
 }
 
+local equipmentChoices = {
+  [1]="dagger",
+  [2]="sword"
+}
+
 local equipment = {
+  sword = {
+    iron = {
+      modifier = 3,
+      sides = { min = 14, max = 16 },
+      base = 1,
+      value = 600,
+      rarity = 1
+    },
+    copper = {
+      modifier = 2,
+      sides = { min = 13, max = 14 },
+      base = 1,
+      value = 150,
+      rarity = 1
+    },
+    bone = {
+      modifier = 1,
+      sides = { min = 12, max = 13 },
+      base = 1,
+      value = 75,
+      rarity = 1
+    },
+    wood = {
+      modifier = 0,
+      sides = { min = 12, max = 12 },
+      base = 1,
+      value = 50,
+      rarity = 1
+    }
+  },
   dagger = {
     iron = {
       modifier = 2,
@@ -47,7 +82,8 @@ local equipment = {
 }
 
 local cost = {
-  dagger = 5
+  dagger = 5,
+  sword = 20
 }
 
 local function insertItem(t, item)
@@ -76,11 +112,9 @@ function Entity:dump()
   local money = 0
 
   for i, item in ipairs (self.items) do
-    if item ~= nil then
-      money = money + item.value
-      self.items[i] = nil
-      self.count = self.count - 1
-    end
+    money = money + item.value
+    table.remove(self.items, i)
+    self.count = self.count - 1
   end
 
   return money
@@ -92,12 +126,12 @@ function Entity:create(resources)
   end
 
   choice = materialChoices[math.random(1, 4)]
-  item = 'dagger'
+  item = equipmentChoices[math.random(1, 2)]
 
   result = resources:remove(choice, cost[item])
-  creation = equipment[item][choice]
 
   if result >= cost[item] then
+    creation = equipment[item][choice]
     createdItem = insertItem(self.items, {
       id = inventoryId,
       index = inventoryCount + 1,
@@ -139,20 +173,18 @@ function Entity:draw()
   )
 
   for i, item in reversedipairs(self.items) do
-    if item ~= nil then
-      iterations = iterations + 1
-      love.graphics.setColor(255, 255, 255)
-      love.graphics.printf(
-        "" .. item.name ..
-        " " .. item.base ..
-        "d" .. item.sides ..
-        "+" .. item.modifier .. "",
-         -16,
-          height - 64 - (iterations * 24),
-          width,
-          "right"
-      )
-    end
+    iterations = iterations + 1
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.printf(
+      "" .. item.name ..
+      " " .. item.base ..
+      "d" .. item.sides ..
+      "+" .. item.modifier .. "",
+       -16,
+        height - 104 - (iterations * 24),
+        width,
+        "right"
+    )
   end
 end
 

@@ -24,6 +24,15 @@ function Entity:sell(inventory)
   return true
 end
 
+function Entity:spend(amount)
+  if self.gold >= amount then
+    self.gold = self.gold - amount
+    return amount
+  end
+
+  return 0
+end
+
 function Entity:update(dt)
   self.animation.current = self.animation.current + dt
 

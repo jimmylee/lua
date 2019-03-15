@@ -14,10 +14,10 @@ function reversedipairs(t)
   return reversedipairsiter, t, #t + 1
 end
 
-local function removeBeginningIndex(tab, val)
-  for i, v in ipairs (tab) do
+local function removeBeginningIndex(t, val)
+  for i, v in ipairs (t) do
     if (v.index == val) then
-      tab[i] = nil
+      table.remove(t, i)
     end
   end
 end
@@ -63,13 +63,10 @@ function Entity:draw()
   width = love.graphics.getWidth()
 
   iterations = 0;
-  segments = (height - 64) / 28
+  segments = (height - (16 + 58)) / 28
   unit = 1 / segments
-  for i, item in reversedipairs(self.items) do
-    if item == nil then
-      return false
-    end
 
+  for i, item in reversedipairs(self.items) do
     if item.index >= self.start then
       iterations = iterations + 1
       hex = 1 - (unit * iterations)
@@ -78,7 +75,7 @@ function Entity:draw()
         "" .. item.text ..
         " ",
         16,
-        height - 64 - (iterations * 24),
+        height - (104) - (iterations * 24),
         width
       )
     end

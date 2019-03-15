@@ -54,7 +54,7 @@ function Entity:draw()
       "x" .. item.amount ..
       " " .. item.resource .. "",
        -320 - 16,
-        height - 64 - (i * 24),
+        height - 104 - (i * 24),
         width,
         "right"
     )
