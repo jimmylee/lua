@@ -108,6 +108,10 @@ function Entity:new(p)
   self.count = 0
 end
 
+function Entity:upgrade(max)
+  self.max = self.max + max
+end
+
 function Entity:dump()
   local money = 0
 

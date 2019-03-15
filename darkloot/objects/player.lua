@@ -12,10 +12,10 @@ function Entity:new(p)
   }
 end
 
-function Entity:sell(inventory)
+function Entity:sell(inventory, bonus)
   local result = inventory:dump()
 
-  self.gold = self.gold + result
+  self.gold = self.gold + result + bonus
 
   if result == 0 then
     return false

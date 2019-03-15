@@ -17,9 +17,13 @@ local function upgradeEntity(entity)
   if entity.exp >= entity.nextExp then
     entity.nextExp = entity.nextExp * 2
     entity.level = entity.level + 1
-    entity.rate = entity.rate - 1
+    entity.rate = entity.rate - 20
     entity.cost = entity.cost + 25
+    entity.value = entity.value + 5
+    return true
   end
+
+  return false
 end
 
 local function drawCharacter(c, name)
@@ -84,7 +88,7 @@ end
 
 local function merchantEvent(activity, encounters, viewer)
   activity:add("Merchant: I came to bring your stock to the king.")
-  sellEvent = viewer:sell(inventory)
+  sellEvent = viewer:sell(inventory, cMerchant.value)
 
   if sellEvent == false then
     activity:add("Merchant: I came to bring your stock to the king, but you have nothing for sale.")
@@ -164,18 +168,50 @@ function love.mousepressed(mx, my, button)
       return false
     end
 
-    upgradeEntity(cCastle)
+    didLevel = upgradeEntity(cCastle)
+
+    if cCastle.level == 3 and didLevel == true then
+      inventory:upgrade(5)
+      love.audio.stop(trackOne)
+      love.audio.play(trackTwo)
+    end
+
+    if cCastle.level == 5 and didLevel == true then
+      inventory:upgrade(5)
+      love.audio.stop(trackTwo)
+      love.audio.play(trackThree)
+    end
+
+    if cCastle.level == 8 and didLevel == true then
+      inventory:upgrade(5)
+      love.audio.stop(trackThree)
+      love.audio.play(trackFour)
+    end
+
     return true
   end
 end
 
 function love.load()
+  trackOne = love.audio.newSource("track-1.mp3", "stream")
+  trackOne:setLooping(true)
+  love.audio.play(trackOne)
+
+  trackTwo = love.audio.newSource("track-2.mp3", "stream")
+  trackTwo:setLooping(true)
+
+  trackThree = love.audio.newSource("track-3.mp3", "stream")
+  trackThree:setLooping(true)
+
+  trackFour = love.audio.newSource("track-4.mp3", "stream")
+  trackFour:setLooping(true)
+
   font = love.graphics.newFont("Masuria.ttf", 20)
   monoFont = love.graphics.newFont("SFMonoBold.ttf", 10)
 
   love.graphics.setFont(font)
 
-  viewer = Player({ gold = 2000 })
+  viewer = Player({ gold = 3000 })
   activity = Activity({ items = {} })
   resources = Resources({ items = {} })
   inventory = Inventory({ items = {} })
@@ -193,7 +229,8 @@ function love.load()
     exp = 0,
     nextExp = 200,
     cost = 50,
-    rate = 960
+    rate = 960,
+    value = 0
   }
 
   cGatherer = {
@@ -207,7 +244,8 @@ function love.load()
     exp = 0,
     nextExp = 200,
     cost = 50,
-    rate = 850
+    rate = 850,
+    value = 0
   }
 
   cMerchant = {
@@ -221,7 +259,8 @@ function love.load()
     exp = 0,
     nextExp = 200,
     cost = 50,
-    rate = 995
+    rate = 995,
+    value = 0
   }
 
   cCastle = {
@@ -235,7 +274,8 @@ function love.load()
     exp = 0,
     nextExp = 1000,
     cost = 100,
-    rate = 999
+    rate = 999,
+    value = 0
   }
 end
 
@@ -247,7 +287,7 @@ function love.update(dt)
   world:update(dt)
   encounters:update(dt)
 
-  elapsed = elapsed + dt + cCastle.level * 0.007
+  elapsed = elapsed + dt + cCastle.level * 0.01
   if elapsed < duration then
     return false
   end
