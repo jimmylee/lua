@@ -3,5 +3,6 @@ name: Dark Loot
 main: main.lua
 description: A loot grinder for you and your friends.
 username: jim
+dimensions: full
 primaryColor: FF0000
 coverImageUrl: https://raw.githubusercontent.com/jimmylee/lua-examples/master/darkloot/logo.png
