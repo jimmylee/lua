@@ -1,5 +1,6 @@
 local Platform = require 'objects/platform'
 local MovingPlatform = require 'objects/moving-platform'
+local Spikes = require 'objects/spikes'
 local Finish = require 'objects/finish'
 local Levels = require 'objects/levels'
 
@@ -26,7 +27,7 @@ function Game:loadLevel(world)
   self:setupPhysics();
 
   self.player = Player(
-    0, 
+    32, 
     love.graphics.getHeight() - 400, 
     16, 
     16, 
@@ -126,6 +127,23 @@ function Game:loadLevel(world)
         table.insert(self.entities, p)
       end
 
+      -- spikes
+      if v2 == 6 then
+        local x = 32 * (i2 - 1)
+        local y = love.graphics.getHeight() - (32 * base)
+
+        local p = Spikes({
+          x = x + 8,
+          y = y + 16,
+          width = 16,
+          height = 16,
+          name = 'SPIKES'
+        })
+
+        self.world:add(p, x, y, 16, 16)
+        table.insert(self.entities, p)
+      end
+
       -- ending
       if v2 == -1 then
         local x = 32 * (i2 - 1)
@@ -136,7 +154,6 @@ function Game:loadLevel(world)
           y = y,
           width = 32,
           height = 32,
-          direction = 0,
           name = 'FINISH'
         })
 
@@ -162,6 +179,12 @@ function Game:checkCols(entity, cols)
       level = level + 1
       self:loadLevel(Levels[level])
     end
+
+    if this == "PLAYER" and other == "SPIKES" then
+      level = 0
+      self:loadLevel(Levels[level])
+    end
+
 
     if cols[i].normal.y == -1 then
       entity.yv = 0

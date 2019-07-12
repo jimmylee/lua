@@ -29,6 +29,7 @@ function love.load()
   assets[4] = love.graphics.newImage("textures/tile.yellow.png")
   assets[5] = love.graphics.newImage("textures/tile.pink.png")
   assets[6] = love.graphics.newImage(user.photoUrl)
+  assets[7] = love.graphics.newImage("textures/tile.spikes.png")
   game = Game(Levels[0])
 end
 
