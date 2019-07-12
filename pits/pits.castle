@@ -1,7 +1,10 @@
+---
+name: Pits
+description: Maybe you will fall into a pit.
 main: main.lua
 primaryColor: FFFFFF
 dimensions: full
 scaling: step
 owner: jim
 title: pits
-
+coverImageUrl: https://raw.githubusercontent.com/jimmylee/lua-examples/master/pits/logo.png
