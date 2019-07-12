@@ -6,5 +6,5 @@ primaryColor: FFFFFF
 dimensions: full
 scaling: step
 owner: jim
-title: pits
+title: Pits
 coverImageUrl: https://raw.githubusercontent.com/jimmylee/lua-examples/master/pits/logo.png
