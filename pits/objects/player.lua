@@ -27,7 +27,7 @@ end
 function Player:draw()
   love.graphics.setColor(1, 1, 1)
   image = assets[6]
-  local scaleX, scaleY = getImageScaleForNewDimensions( image, 16, 16 )
+  local scaleX, scaleY = getImageScaleForNewDimensions( image, 12, 12 )
   love.graphics.draw(image, self.x, self.y, 0, scaleX, scaleY)
 end
 

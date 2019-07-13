@@ -29,8 +29,8 @@ function Game:loadLevel(world)
   self.player = Player(
     32, 
     love.graphics.getHeight() - 400, 
-    16, 
-    16, 
+    12, 
+    12, 
     self.world, 
     200, 
     200, 
@@ -181,7 +181,12 @@ function Game:checkCols(entity, cols)
     end
 
     if this == "PLAYER" and other == "SPIKES" then
-      level = 0
+      level = level - 1
+
+      if level < 0 then
+        level = 0
+      end
+
       self:loadLevel(Levels[level])
     end
 
@@ -221,20 +226,39 @@ function Game:update(dt)
 
   state = self.player:update(dt)
   if state.y > love.graphics.getHeight() then
-    level = 0
+    level = level - 1
+
+    if level < 0 then
+      level = 0
+    end
+
     self:loadLevel(Levels[level])
   end
 end
 
 function Game:manageKeyboard(dt)
+  if love.keyboard.isDown("space") then
+    self.player:jump(dt)
+  end
+
+  if love.keyboard.isDown("up") then
+    self.player:jump(dt)
+  end
+
+  if love.keyboard.isDown("w") then
+    self.player:jump(dt)
+  end
+
   if love.keyboard.isDown("right") then
     self.player:moveRight(dt)
   elseif love.keyboard.isDown("left") then
     self.player:moveLeft(dt);
   end
   
-  if love.keyboard.isDown("up") then
-    self.player:jump(dt)
+  if love.keyboard.isDown("d") then
+    self.player:moveRight(dt)
+  elseif love.keyboard.isDown("a") then
+    self.player:moveLeft(dt);
   end
 end
 
