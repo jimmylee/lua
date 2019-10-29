@@ -1,0 +1,9 @@
+---
+name: Pits 2
+description: Maybe you will fall into a pit.
+main: main.lua
+primaryColor: FFFFFF
+dimensions: full
+scaling: step
+owner: jim
+title: Pits 2
