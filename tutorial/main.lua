@@ -18,7 +18,7 @@ function newAnimation(image, width, height)
   -- Since there are 4 rows and 4 columns, 
   -- each quadrant is 128px width, and 128px height.
   -- Below is the syntax for a for loop.
-  -- We use the four loop to insert each part of the 
+  -- We use the for loop to insert each part of the 
   -- sprite sheet into a Lua table.
   for y = 0, image:getHeight() - height, height do
     for x = 0, image:getWidth() - width, width do
